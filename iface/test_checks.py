@@ -239,3 +239,25 @@ def test_instance_attribute():
         value = None
 
     assert checks.isinstance(Example, IExample)
+
+
+def test_subclass_input_iter():
+    """Check if subclass arguments are handled if __iter__ is defined."""
+    class IExample(ibc.Iface):
+
+        """Example interface."""
+
+        @decorators.method
+        def __iter__(self):
+            """Get an iterator."""
+            return iter(())
+
+    class Example:
+
+        """Example implementation."""
+
+        def __iter__(self):
+            """Get an iterator."""
+            return iter(())
+
+    assert checks.issubclass(Example, IExample)

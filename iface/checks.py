@@ -8,13 +8,13 @@ _isinstance = isinstance
 
 def _ensure_ifaces_tuple(ifaces):
     """Convert to a tuple of interfaces and raise if not interfaces."""
-    if not hasattr(ifaces, '__iter__'):
-
-        ifaces = (ifaces,)
-
-    if not _isinstance(ifaces, tuple):
+    try:
 
         ifaces = tuple(ifaces)
+
+    except TypeError:
+
+        ifaces = (ifaces,)
 
     for iface in ifaces:
 

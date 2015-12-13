@@ -10,7 +10,7 @@ with open('README.rst', 'r') as readmefile:
 
 setup(
     name='iface',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/kevinconway/iface',
     description='Implementable interfaces for Python.',
     author="Kevin Conway",
