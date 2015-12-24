@@ -71,7 +71,7 @@ def _is_attribute(attr):
 
 def _is_property(attr):
     """Return True if attr is a property."""
-    return callable(attr) and _isinstance(attr, property)
+    return _isinstance(attr, property)
 
 
 def _is_method(attr):

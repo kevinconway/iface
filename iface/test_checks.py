@@ -221,6 +221,29 @@ def test_subclass_property_value():
     assert not checks.issubclass(Example, IExample)
 
 
+def test_subclass_property():
+    """Check if properties are found by issubclass."""
+    class IExample(ibc.Iface):
+
+        """Example interface."""
+
+        @decorators.property
+        def value(self):
+            """Get a value."""
+            return None
+
+    class Example:
+
+        """Example implementation."""
+
+        @property
+        def value(self):
+            """Get a value."""
+            return None
+
+    assert checks.issubclass(Example, IExample)
+
+
 def test_instance_attribute():
     """Check if attributes are found by isinstance."""
     class IExample(ibc.Iface):
