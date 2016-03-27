@@ -4,8 +4,97 @@ iface
 
 *Implementable interfaces for Python.*
 
-Example Usage
-=============
+Defining An interface
+=====================
+
+.. code-block:: python
+
+    import iface
+
+    class UserInterface(iface.Iface):
+
+        """Interface for a user of the system."""
+
+        @iface.classmethod
+        def load(self, identifier):
+            """Load a user object based on the DB identifier."""
+            raise NotImplementedError()
+
+        @iface.method
+        def save(self):
+            """Save the current user record to the DB."""
+            raise NotImplementedError()
+
+Interfaces definitions are subclasses of `Iface` that have some number of
+attributes defined and decorated. Currently, the following kinds of attributes
+are supported::
+
+    -   attribute
+
+        A named attribute that that contains any value.
+
+    -   property
+
+        A named attribute that is implemented as a property.
+
+    -   classattribute
+
+        A named attribute that is attached to the class rather than an instance.
+
+    -   method
+
+        A named attribute that is callable. Can be implemented as an instance
+        method, class method, or static method.
+
+    -   classmethod
+
+        A named attribute that is callable and implemented as a class method.
+
+Implementing An Interface
+=========================
+
+.. code-block:: python
+
+    class User:
+
+        """A user of the system."""
+
+        @classmethod
+        def load(cls, identifier):
+            return cls()
+
+        def save(self):
+            return None
+
+Unlike Java-style interfaces, no explicit binding needs to be made between the
+implementation and definition of an interface. As long as an object has all the
+right attributes defined it is considered an implementation. Implementations
+don't need to import or use `iface` in any way.
+
+Checking Implementations
+========================
+
+.. code-block:: python
+
+    def do_something_with_user(user):
+        assert isinstance(user, UserInterface)
+
+The `isinstance` and `issubclass` built-ins can be used to verify if an object
+implements a given interface. Using the built-ins performs a fairly naive check
+that ensures the object has attributes that match all of the names defined in
+the interface.
+
+Additionally, this package provides alternative implementations of these
+functions in the form of `iface.isinstance` and `iface.issubclass` that will
+perform a more thorough inspection of the object and match against things like
+class methods and class attributes.
+
+The suggested pattern for checking implementations is to use the `assert`
+statement. The assertion will raise an exception during testing and development
+if the wrong objects are getting passed around. Before running in a production
+like environment, use the use the `-O` flag or `PYTHONOPTIMIZE=1` environment
+variable to strip out the assert statements and remove the cost of all the
+attribute checking.
 
 Testing
 =======
